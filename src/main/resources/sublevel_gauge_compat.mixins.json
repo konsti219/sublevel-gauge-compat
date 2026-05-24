@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "package": "dev.konsti.factorygaugefix.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "mixins": [
+    "AbstractPanelBehaviourMixin",
+    "AltitudeSensorBlockEntityMixin",
+    "BlockEntityConfigurationPacketMixin",
+    "ExpressionPanelBehaviourMixin",
+    "FactoryPanelBehaviourMixin",
+    "IntPanelBehaviourMixin",
+    "NavTableBlockEntityMixin",
+    "VelocitySensorBlockEntityMixin"
+  ],
+  "client": [
+    "ExpressionPanelScreenMixin",
+    "FactoryPanelRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
