@@ -4,6 +4,7 @@ import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock;
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlockEntity;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;
 import net.liukrast.deployer.lib.logistics.board.PanelType;
+import net.liukrast.deployer.lib.logistics.board.ScrollPanelBehaviour;
 import net.liukrast.deployer.lib.logistics.board.connection.PanelConnectionBuilder;
 import net.liukrast.deployer.lib.registry.DeployerPanelConnections;
 import net.minecraft.core.HolderLookup;
@@ -12,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,9 +25,6 @@ import java.util.List;
 @Pseudo
 @Mixin(targets = "net.liukrast.eg.content.logistics.board.IntPanelBehaviour", remap = false)
 public abstract class IntPanelBehaviourMixin extends AbstractPanelBehaviour {
-    @Shadow
-    public int value;
-
     @Unique
     private static final int sublevelGaugeCompat$memoryModeIndex = 3;
 
@@ -126,7 +123,7 @@ public abstract class IntPanelBehaviourMixin extends AbstractPanelBehaviour {
 
     @Unique
     private boolean sublevelGaugeCompat$isMemoryMode() {
-        return value == sublevelGaugeCompat$memoryModeIndex;
+        return sublevelGaugeCompat$getScrollValue() == sublevelGaugeCompat$memoryModeIndex;
     }
 
     @Unique
@@ -136,7 +133,7 @@ public abstract class IntPanelBehaviourMixin extends AbstractPanelBehaviour {
             return count;
         }
 
-        return switch (value) {
+        return switch (sublevelGaugeCompat$getScrollValue()) {
             case 0 -> countList.stream().mapToInt(number -> (int) (float) number).sum();
             case 1 -> -countList.stream().mapToInt(number -> (int) (float) number).sum();
             case 2 -> countList.stream().mapToInt(number -> (int) (float) number).reduce(1, (left, right) -> left * right);
@@ -147,6 +144,11 @@ public abstract class IntPanelBehaviourMixin extends AbstractPanelBehaviour {
     @Unique
     private float sublevelGaugeCompat$getOutputValue() {
         return sublevelGaugeCompat$isMemoryMode() ? sublevelGaugeCompat$memoryValue : count;
+    }
+
+    @Unique
+    private int sublevelGaugeCompat$getScrollValue() {
+        return ((ScrollPanelBehaviour) (Object) this).getValue();
     }
 
     @Unique

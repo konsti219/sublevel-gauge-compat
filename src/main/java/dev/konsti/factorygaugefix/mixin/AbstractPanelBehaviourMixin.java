@@ -1,23 +1,22 @@
 package dev.konsti.factorygaugefix.mixin;
 
-import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock;
-import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlockEntity;
+import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBehaviour;
 import dev.konsti.factorygaugefix.SimulatedGaugesHelper;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;
-import net.liukrast.deployer.lib.logistics.board.PanelType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(AbstractPanelBehaviour.class)
-public abstract class AbstractPanelBehaviourMixin extends AbstractPanelBehaviour {
+@Mixin(targets = "net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour", remap = false)
+public abstract class AbstractPanelBehaviourMixin extends FactoryPanelBehaviour {
     @Unique
     private double sublevelGaugeCompat$lastDynamicOutput = Double.NaN;
 
-    protected AbstractPanelBehaviourMixin(PanelType<?> type, FactoryPanelBlockEntity be, FactoryPanelBlock.PanelSlot slot) {
-        super(type, be, slot);
+    protected AbstractPanelBehaviourMixin(com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlockEntity be,
+                                          com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock.PanelSlot slot) {
+        super(be, slot);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -32,6 +31,6 @@ public abstract class AbstractPanelBehaviourMixin extends AbstractPanelBehaviour
         }
 
         sublevelGaugeCompat$lastDynamicOutput = currentOutput;
-        notifyOutputs();
+        ((AbstractPanelBehaviour) (Object) this).notifyOutputs();
     }
 }
