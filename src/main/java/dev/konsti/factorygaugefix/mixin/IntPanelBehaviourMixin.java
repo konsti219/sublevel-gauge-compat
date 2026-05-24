@@ -41,6 +41,7 @@ public abstract class IntPanelBehaviourMixin extends AbstractPanelBehaviour {
     @Inject(method = "addConnections", at = @At("HEAD"), cancellable = true)
     private void sublevelGaugeCompat$registerFloatMemoryOutput(PanelConnectionBuilder builder, CallbackInfo ci) {
         builder.registerBoth(DeployerPanelConnections.NUMBERS, this::sublevelGaugeCompat$getOutputValue);
+        builder.registerOutput(DeployerPanelConnections.REDSTONE.get(), this::sublevelGaugeCompat$hasRedstoneOutput);
         builder.registerInput(DeployerPanelConnections.REDSTONE);
         builder.registerOutput(DeployerPanelConnections.STRING.get(), () -> getDisplayLinkComponent(false).getString());
         ci.cancel();
@@ -144,6 +145,11 @@ public abstract class IntPanelBehaviourMixin extends AbstractPanelBehaviour {
     @Unique
     private float sublevelGaugeCompat$getOutputValue() {
         return sublevelGaugeCompat$isMemoryMode() ? sublevelGaugeCompat$memoryValue : count;
+    }
+
+    @Unique
+    private boolean sublevelGaugeCompat$hasRedstoneOutput() {
+        return Math.abs(sublevelGaugeCompat$getOutputValue()) >= sublevelGaugeCompat$floatEpsilon;
     }
 
     @Unique

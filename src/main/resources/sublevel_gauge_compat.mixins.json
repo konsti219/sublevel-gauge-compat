@@ -11,6 +11,8 @@
     "FactoryPanelBehaviourMixin",
     "IntPanelBehaviourMixin",
     "NavTableBlockEntityMixin",
+    "RedstoneLinkBlockEntityMixin",
+    "RedstoneLinkBlockMixin",
     "VelocitySensorBlockEntityMixin"
   ],
   "client": [

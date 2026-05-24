@@ -5,6 +5,7 @@ import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlockEntit
 import dev.konsti.factorygaugefix.ExpressionGaugeCompatHelper;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;
 import net.liukrast.deployer.lib.logistics.board.PanelType;
+import net.liukrast.deployer.lib.logistics.board.connection.PanelConnectionBuilder;
 import net.liukrast.deployer.lib.registry.DeployerPanelConnections;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -28,6 +29,15 @@ public abstract class ExpressionPanelBehaviourMixin extends AbstractPanelBehavio
 
     protected ExpressionPanelBehaviourMixin(PanelType<?> type, FactoryPanelBlockEntity be, FactoryPanelBlock.PanelSlot slot) {
         super(type, be, slot);
+    }
+
+    @Inject(method = "addConnections", at = @At("HEAD"), cancellable = true)
+    private void sublevelGaugeCompat$registerRedstoneOutput(PanelConnectionBuilder builder, CallbackInfo ci) {
+        builder.registerBoth(DeployerPanelConnections.NUMBERS, () -> output);
+        builder.registerOutput(DeployerPanelConnections.REDSTONE.get(), this::sublevelGaugeCompat$hasRedstoneOutput);
+        builder.registerInput(DeployerPanelConnections.REDSTONE);
+        builder.registerOutput(DeployerPanelConnections.STRING.get(), () -> getDisplayLinkComponent(false).getString());
+        ci.cancel();
     }
 
     @Inject(method = "notifiedFromInput", at = @At("HEAD"), cancellable = true)
@@ -79,5 +89,9 @@ public abstract class ExpressionPanelBehaviourMixin extends AbstractPanelBehavio
         blockEntity.notifyUpdate();
         notifiedFromInput();
         ci.cancel();
+    }
+
+    private boolean sublevelGaugeCompat$hasRedstoneOutput() {
+        return Math.abs(output) >= 1e-6f;
     }
 }
