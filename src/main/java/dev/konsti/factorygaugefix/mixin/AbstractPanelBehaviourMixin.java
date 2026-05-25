@@ -1,7 +1,10 @@
 package dev.konsti.factorygaugefix.mixin;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBehaviour;
+import com.simibubi.create.foundation.utility.CreateLang;
 import dev.konsti.factorygaugefix.SimulatedGaugesHelper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -32,5 +35,21 @@ public abstract class AbstractPanelBehaviourMixin extends FactoryPanelBehaviour 
 
         sublevelGaugeCompat$lastDynamicOutput = currentOutput;
         ((AbstractPanelBehaviour) (Object) this).notifyOutputs();
+    }
+
+    @Inject(method = "writeSafe", at = @At("TAIL"))
+    private void sublevelGaugeCompat$writeCustomPanelDataToSafeNbt(CompoundTag nbt, HolderLookup.Provider registries, CallbackInfo ci) {
+        if (!active) {
+            return;
+        }
+
+        String slotKey = CreateLang.asId(slot.name());
+        CompoundTag panelTag = nbt.getCompound(slotKey);
+        if (panelTag.isEmpty()) {
+            return;
+        }
+
+        ((AbstractPanelBehaviour) (Object) this).easyWrite(panelTag, registries, false);
+        nbt.put(slotKey, panelTag);
     }
 }
