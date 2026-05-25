@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.StringJoiner;
 
 public final class ExpressionGaugeCompatHelper {
-    public static final int MAX_EXPRESSION_LENGTH = 512;
+    public static final int MAX_EXPRESSION_LENGTH = 256;
 
     private static final double BOOLEAN_TRUE = 1;
     private static final double BOOLEAN_FALSE = 0;
