@@ -32,9 +32,8 @@ import java.util.Optional;
 
 @Mixin(value = FactoryPanelRenderer.class, priority = 1500)
 public class FactoryPanelRendererMixin {
-    private static final float HITBOX_THICKNESS = 0.25f;
+    private static final float HITBOX_THICKNESS = 2 / 16f;
     private static final float HITBOX_NORMAL_THICKNESS = 0.05f;
-    private static final float HITBOX_PLANE_EXPANSION = 1 / 32f;
 
     @Inject(
         method = "renderPath",
@@ -75,9 +74,9 @@ public class FactoryPanelRendererMixin {
         pos = pos.add(.5f, .5f, .5f);
 
         Direction.Axis axis = FactoryPanelBlock.connectedDirection(blockState).getAxis();
-        float thickX = axis == Direction.Axis.X ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS + HITBOX_PLANE_EXPANSION;
-        float thickY = axis == Direction.Axis.Y ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS + HITBOX_PLANE_EXPANSION;
-        float thickZ = axis == Direction.Axis.Z ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS + HITBOX_PLANE_EXPANSION;
+        float thickX = axis == Direction.Axis.X ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS;
+        float thickY = axis == Direction.Axis.Y ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS;
+        float thickZ = axis == Direction.Axis.Z ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS;
 
         AABB localAabb = new AABB(
             pos.x - thickX,
