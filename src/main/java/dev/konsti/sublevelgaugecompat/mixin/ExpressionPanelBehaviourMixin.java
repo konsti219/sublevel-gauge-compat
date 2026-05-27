@@ -1,8 +1,8 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock;
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlockEntity;
-import dev.konsti.factorygaugefix.ExpressionGaugeCompatHelper;
+import dev.konsti.sublevelgaugecompat.ExpressionGaugeCompatHelper;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;
 import net.liukrast.deployer.lib.logistics.board.PanelType;
 import net.liukrast.deployer.lib.logistics.board.connection.PanelConnectionBuilder;

@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
 import com.simibubi.create.foundation.blockEntity.SyncedBlockEntity;
 import com.simibubi.create.foundation.networking.BlockEntityConfigurationPacket;

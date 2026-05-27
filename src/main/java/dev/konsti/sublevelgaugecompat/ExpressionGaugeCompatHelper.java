@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix;
+package dev.konsti.sublevelgaugecompat;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;

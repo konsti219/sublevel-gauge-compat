@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix;
+package dev.konsti.sublevelgaugecompat;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 

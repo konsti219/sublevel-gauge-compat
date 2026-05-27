@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix;
+package dev.konsti.sublevelgaugecompat;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelConnection;
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelPosition;

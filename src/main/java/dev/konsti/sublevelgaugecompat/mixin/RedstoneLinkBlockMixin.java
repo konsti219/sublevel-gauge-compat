@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBehaviour;
 import com.simibubi.create.content.redstone.link.RedstoneLinkBlock;

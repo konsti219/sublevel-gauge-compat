@@ -1,6 +1,6 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
-import dev.konsti.factorygaugefix.ExpressionGaugeCompatHelper;
+import dev.konsti.sublevelgaugecompat.ExpressionGaugeCompatHelper;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;
 import net.minecraft.client.gui.components.EditBox;
 import org.spongepowered.asm.mixin.Mixin;

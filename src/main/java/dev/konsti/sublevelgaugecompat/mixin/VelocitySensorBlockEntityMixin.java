@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelSupportBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
@@ -15,15 +15,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Pseudo
-@Mixin(targets = "dev.simulated_team.simulated.content.blocks.nav_table.NavTableBlockEntity", remap = false)
-public abstract class NavTableBlockEntityMixin extends SmartBlockEntity {
+@Mixin(targets = "dev.simulated_team.simulated.content.blocks.velocity_sensor.VelocitySensorBlockEntity", remap = false)
+public abstract class VelocitySensorBlockEntityMixin extends SmartBlockEntity {
     @Shadow
-    public abstract float getRelativeAngle();
+    public abstract float getAdjustedVelocity();
+
+    @Shadow
+    public abstract int getRedstoneStrength();
 
     @Unique
-    private double sublevelGaugeCompat$lastRelativeAngle = Double.NaN;
+    private double sublevelGaugeCompat$lastVelocity = Double.NaN;
 
-    protected NavTableBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+    protected VelocitySensorBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 
@@ -33,9 +36,9 @@ public abstract class NavTableBlockEntityMixin extends SmartBlockEntity {
             return;
         }
 
-        double current = getRelativeAngle();
-        if (Double.isNaN(sublevelGaugeCompat$lastRelativeAngle) || Math.abs(sublevelGaugeCompat$lastRelativeAngle - current) > 1e-4) {
-            sublevelGaugeCompat$lastRelativeAngle = current;
+        double current = getAdjustedVelocity() + getRedstoneStrength() / 1000d;
+        if (Double.isNaN(sublevelGaugeCompat$lastVelocity) || Math.abs(sublevelGaugeCompat$lastVelocity - current) > 1e-4) {
+            sublevelGaugeCompat$lastVelocity = current;
             FactoryPanelSupportBehaviour support = BlockEntityBehaviour.get(level, worldPosition, FactoryPanelSupportBehaviour.TYPE);
             if (support != null) {
                 support.notifyPanels();

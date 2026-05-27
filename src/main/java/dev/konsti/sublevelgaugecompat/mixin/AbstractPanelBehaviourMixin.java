@@ -1,8 +1,8 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBehaviour;
 import com.simibubi.create.foundation.utility.CreateLang;
-import dev.konsti.factorygaugefix.SimulatedGaugesHelper;
+import dev.konsti.sublevelgaugecompat.SimulatedGaugesHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.liukrast.deployer.lib.logistics.board.AbstractPanelBehaviour;

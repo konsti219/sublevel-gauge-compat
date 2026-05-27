@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "dev.konsti.factorygaugefix.mixin",
+  "package": "dev.konsti.sublevelgaugecompat.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "mixins": [

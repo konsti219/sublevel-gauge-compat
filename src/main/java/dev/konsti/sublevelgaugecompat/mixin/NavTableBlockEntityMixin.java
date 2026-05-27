@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix.mixin;
+package dev.konsti.sublevelgaugecompat.mixin;
 
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelSupportBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
@@ -15,18 +15,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Pseudo
-@Mixin(targets = "dev.simulated_team.simulated.content.blocks.velocity_sensor.VelocitySensorBlockEntity", remap = false)
-public abstract class VelocitySensorBlockEntityMixin extends SmartBlockEntity {
+@Mixin(targets = "dev.simulated_team.simulated.content.blocks.nav_table.NavTableBlockEntity", remap = false)
+public abstract class NavTableBlockEntityMixin extends SmartBlockEntity {
     @Shadow
-    public abstract float getAdjustedVelocity();
-
-    @Shadow
-    public abstract int getRedstoneStrength();
+    public abstract float getRelativeAngle();
 
     @Unique
-    private double sublevelGaugeCompat$lastVelocity = Double.NaN;
+    private double sublevelGaugeCompat$lastRelativeAngle = Double.NaN;
 
-    protected VelocitySensorBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+    protected NavTableBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 
@@ -36,9 +33,9 @@ public abstract class VelocitySensorBlockEntityMixin extends SmartBlockEntity {
             return;
         }
 
-        double current = getAdjustedVelocity() + getRedstoneStrength() / 1000d;
-        if (Double.isNaN(sublevelGaugeCompat$lastVelocity) || Math.abs(sublevelGaugeCompat$lastVelocity - current) > 1e-4) {
-            sublevelGaugeCompat$lastVelocity = current;
+        double current = getRelativeAngle();
+        if (Double.isNaN(sublevelGaugeCompat$lastRelativeAngle) || Math.abs(sublevelGaugeCompat$lastRelativeAngle - current) > 1e-4) {
+            sublevelGaugeCompat$lastRelativeAngle = current;
             FactoryPanelSupportBehaviour support = BlockEntityBehaviour.get(level, worldPosition, FactoryPanelSupportBehaviour.TYPE);
             if (support != null) {
                 support.notifyPanels();

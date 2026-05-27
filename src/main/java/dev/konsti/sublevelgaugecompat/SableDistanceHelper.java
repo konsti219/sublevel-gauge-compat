@@ -1,4 +1,4 @@
-package dev.konsti.factorygaugefix;
+package dev.konsti.sublevelgaugecompat;
 
 import dev.ryanhcode.sable.Sable;
 import net.minecraft.core.BlockPos;
