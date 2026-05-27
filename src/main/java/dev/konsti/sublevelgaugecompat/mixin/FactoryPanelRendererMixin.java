@@ -32,6 +32,10 @@ import java.util.Optional;
 
 @Mixin(value = FactoryPanelRenderer.class, priority = 1500)
 public class FactoryPanelRendererMixin {
+    private static final float HITBOX_THICKNESS = 0.25f;
+    private static final float HITBOX_NORMAL_THICKNESS = 0.05f;
+    private static final float HITBOX_PLANE_EXPANSION = 1 / 32f;
+
     @Inject(
         method = "renderPath",
         at = @At(
@@ -57,13 +61,7 @@ public class FactoryPanelRendererMixin {
             return;
         }
 
-        if (pathReversed ? i == 0 : i == path.size() - 1) {
-            return;
-        }
-
         float y = (yOffset + (direction.get2DDataValue() % 2) * 0.125f) / 512f;
-        float thick = 0.25f;
-        float thickOnAxis = 0.05f;
 
         Vector3f pos = new Vector3f(
             currentX + behaviour.slot.xOffset * .5f + .25f,
@@ -77,9 +75,9 @@ public class FactoryPanelRendererMixin {
         pos = pos.add(.5f, .5f, .5f);
 
         Direction.Axis axis = FactoryPanelBlock.connectedDirection(blockState).getAxis();
-        float thickX = axis == Direction.Axis.X ? thickOnAxis : thick;
-        float thickY = axis == Direction.Axis.Y ? thickOnAxis : thick;
-        float thickZ = axis == Direction.Axis.Z ? thickOnAxis : thick;
+        float thickX = axis == Direction.Axis.X ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS + HITBOX_PLANE_EXPANSION;
+        float thickY = axis == Direction.Axis.Y ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS + HITBOX_PLANE_EXPANSION;
+        float thickZ = axis == Direction.Axis.Z ? HITBOX_NORMAL_THICKNESS : HITBOX_THICKNESS + HITBOX_PLANE_EXPANSION;
 
         AABB localAabb = new AABB(
             pos.x - thickX,
